@@ -1,0 +1,9 @@
+[mikrotik-routers]
+192.168.200.246
+
+[mikrotik-switches]
+192.168.200.246
+
+[mikrotik-devices:children]
+mikrotik-routers
+mikrotik-switches
