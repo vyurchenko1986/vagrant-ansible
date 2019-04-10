@@ -10,7 +10,7 @@ SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
-  config.vm.hostname = "vm-vagrant-ansible"
+  config.vm.hostname = "vm-ansible"
   config.vm.provision "shell", inline: $script
   config.vm.synced_folder "./mikrotik-provision", "/home/vagrant/mikrotik-provision", create: true
 end
