@@ -6,10 +6,10 @@
 
   tasks:
 
-    - name: Start Services configured
+    - name: Disable services
       routeros_command:
         commands:
-          - /log warning "Start Services configured"
+          - /log warning "Disable services"
           - /ip service set telnet disabled=yes
           - /ip service set ftp disabled=yes
           - /ip service set api disabled=yes
@@ -22,10 +22,10 @@
     - name: Debug registered var
       debug: var=ip_service_set_result.stdout_lines[7]
 
-    - name: Start Service ports configured
+    - name: Disable services ports
       routeros_command:
         commands:
-          - /log warning "Start Service ports configured"
+          - /log warning "Disable services ports"
           - /ip firewall service-port set ftp disabled=yes
           - /ip firewall service-port set tftp disabled=yes
           - /ip firewall service-port set irc disabled=yes
@@ -41,10 +41,10 @@
     - name: Debug registered var
       debug: var=ip_firewall_service_port_set_result.stdout_lines[10]
 
-    - name: Start NTP configured
+    - name: NTP configured
       routeros_command:
         commands:
-          - /log warning "Start NTP configured"
+          - /log warning "NTP configured"
           - /system ntp client set enabled=yes server-dns-names="time1.google.com, time2.google.com, 1.pool.ntp.org, 2.pool.ntp.org"
           - /system ntp client print
           - /system clock set time-zone-name="Europe/Kiev"
