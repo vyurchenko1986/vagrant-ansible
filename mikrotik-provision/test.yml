@@ -1,12 +1,12 @@
 ---
-- name: Disable unused services
+- name: Run cfg commands on router
   hosts: mikrotik-devices
   gather_facts: false
   connection: network_cli
 
   tasks:
 
-    - name: Disable unused services
+    - name: Start Services configured
       routeros_command:
         commands:
           - /log warning "Start Services configured"
@@ -22,7 +22,7 @@
     - name: Debug registered var
       debug: var=ip_service_set_result.stdout_lines[7]
 
-    - name: By default, disable the helper'y
+    - name: Start Service ports configured
       routeros_command:
         commands:
           - /log warning "Start Service ports configured"
