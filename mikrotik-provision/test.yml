@@ -51,3 +51,14 @@
 
     - name: Debug registered var
       debug: var=system_ntp_client_set_result.stdout_lines
+
+    - name: Configuring Users
+      routeros_command:
+        commands:
+          - /log warning "Start Users settings configured";
+          - /user add name=AdminUser password=AdminPass group=full;
+          - /user remove admin;
+      register: system_ntp_client_set_result
+
+    - name: Debug registered var
+      debug: var=system_ntp_client_set_result.stdout_lines
