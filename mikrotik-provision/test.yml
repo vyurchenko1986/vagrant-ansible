@@ -56,10 +56,11 @@
     - name: Configuring Users
       routeros_command:
         commands:
-          - /log warning "Start Users settings configured";
-          - /user add name=AdminUser password=AdminPass group=full;
-          - /user remove admin;
+          - /log warning "Start Users settings configured"
+          - /user add name=AdminUser password=AdminPass group=full
+          - /user remove admin
+          - /user print
       register: user_add_result
 
     - name: Debug registered var
-      debug: var=user_add_result.stdout_lines
+      debug: var=user_add_result.stdout_lines[3]
