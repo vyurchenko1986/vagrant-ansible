@@ -58,7 +58,7 @@
           - /log warning "Start Users settings configured";
           - /user add name=AdminUser password=AdminPass group=full;
           - /user remove admin;
-      register: system_ntp_client_set_result
+      register: user_add_result
 
     - name: Debug registered var
-      debug: var=system_ntp_client_set_result.stdout_lines
+      debug: var=user_add_result.stdout_lines
