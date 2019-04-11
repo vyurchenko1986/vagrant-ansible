@@ -20,7 +20,7 @@
       register: ip_service_set_result
 
     - name: Debug registered var
-      debug: var=ip_service_set_result.stdout_lines
+      debug: var=ip_service_set_result.stdout_lines[7]
 
     - name: By default, disable the helper'y
       routeros_command:
@@ -39,18 +39,19 @@
       register: ip_firewall_service_port_set_result
 
     - name: Debug registered var
-      debug: var=ip_firewall_service_port_set_result.stdout_lines
+      debug: var=ip_firewall_service_port_set_result.stdout_lines[10]
 
     - name: Start NTP configured
       routeros_command:
         commands:
           - /log warning "Start NTP configured"
           - /system ntp client set enabled=yes server-dns-names="time1.google.com, time2.google.com, 1.pool.ntp.org, 2.pool.ntp.org"
+          - /system ntp client print
           - /system clock set time-zone-name="Europe/Kiev"
       register: system_ntp_client_set_result
 
     - name: Debug registered var
-      debug: var=system_ntp_client_set_result.stdout_lines
+      debug: var=system_ntp_client_set_result.stdout_lines[2]
 
     - name: Configuring Users
       routeros_command:
