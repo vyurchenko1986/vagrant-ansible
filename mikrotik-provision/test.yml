@@ -9,6 +9,7 @@
     - name: Disable unused services
       routeros_command:
         commands:
+          - /log warning "Start Services configured"
           - /ip service set telnet disabled=yes
           - /ip service set ftp disabled=yes
           - /ip service set api disabled=yes
@@ -24,6 +25,7 @@
     - name: By default, disable the helper'y
       routeros_command:
         commands:
+          - /log warning "Start Service ports configured"
           - /ip firewall service-port set ftp disabled=yes
           - /ip firewall service-port set tftp disabled=yes
           - /ip firewall service-port set irc disabled=yes
@@ -38,3 +40,14 @@
 
     - name: Debug registered var
       debug: var=ip_firewall_service_port_set_result.stdout_lines
+
+    - name: Start NTP configured
+      routeros_command:
+        commands:
+          - /log warning "Start NTP configured"
+          - /system ntp client set enabled=yes server-dns-names="time.google.com, 0.pool.ntp.org, 1.pool.ntp.org, 2.pool.ntp.org, 3.pool.ntp.org"
+          - /system clock set time-zone-name="Europe/Kiev"
+      register: system_ntp_client_set_result
+
+    - name: Debug registered var
+      debug: var=system_ntp_client_set_result.stdout_lines
