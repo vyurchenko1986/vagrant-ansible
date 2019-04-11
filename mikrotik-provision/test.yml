@@ -5,7 +5,8 @@
   connection: network_cli
 
   tasks:
-    - name: show command for MikroTik
+
+    - name: Disable unused services
       routeros_command:
         commands:
           - /ip service set telnet disabled=yes
@@ -15,8 +16,25 @@
           - /ip service set www disabled=yes
           - /ip service set www-ssl disabled=yes
           - /ip service print
-      register: result
+      register: ip_service_set_result
 
-    - name: display result to terminal windows
-      debug:
-        var: result.stdout_lines
+    - name: Debug registered var
+      debug: var=ip_service_set_result.stdout_lines
+
+    - name: By default, disable the helper'y
+      routeros_command:
+        commands:
+          - /ip firewall service-port set ftp disabled=yes
+          - /ip firewall service-port set tftp disabled=yes
+          - /ip firewall service-port set irc disabled=yes
+          - /ip firewall service-port set h323 disabled=yes
+          - /ip firewall service-port set sip disabled=yes
+          - /ip firewall service-port set pptp disabled=yes
+          - /ip firewall service-port set dccp disabled=yes
+          - /ip firewall service-port set sctp disabled=yes
+          - /ip firewall service-port set udplite disabled=yes
+          - /ip firewall service-port print
+      register: ip_firewall_service_port_set_result
+
+    - name: Debug registered var
+      debug: var=ip_firewall_service_port_set_result.stdout_lines
