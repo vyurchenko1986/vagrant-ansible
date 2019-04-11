@@ -1,0 +1,22 @@
+---
+- name: Disable unused services
+  hosts: mikrotik-devices
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: show command for MikroTik
+      routeros_command:
+        commands:
+          - /ip service set telnet disabled=yes
+          - /ip service set ftp disabled=yes
+          - /ip service set api disabled=yes
+          - /ip service set api-ssl disabled=yes
+          - /ip service set www disabled=yes
+          - /ip service set www-ssl disabled=yes
+          - /ip service print
+      register: result
+
+    - name: display result to terminal windows
+      debug:
+        var: result.stdout_lines
