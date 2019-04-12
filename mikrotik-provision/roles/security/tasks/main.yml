@@ -5,42 +5,29 @@
   routeros_command:
     commands:
       - /log warning "Disable services"
-      - /if ([/ip service get telnet disabled] !=true) do={/ip service set telnet disabled=yes}
-      - /if ([/ip service get ftp disabled] !=true) do={/ip service set ftp disabled=yes}
-      - /if ([/ip service get api disabled] !=true) do={/ip service set api disabled=yes}
-      - /if ([/ip service get api-ssl disabled] !=true) do={/ip service set api-ssl disabled=yes}
-      - /if ([/ip service get www disabled] !=true) do={/ip service set www disabled=yes}
-      - /if ([/ip service get www-ssl disabled] !=true) do={/ip service set www-ssl disabled=yes}
+      - /ip service disable api,api-ssl,ftp,telnet,www,www-ssl
       - /ip service print
   register: ip_service_set_result
 
 - name: Debug registered var
-  debug: var=ip_service_set_result.stdout_lines[7]
+  debug: var=ip_service_set_result.stdout_lines[2]
 
 - name: Disable services ports
   routeros_command:
     commands:
       - /log warning "Disable services ports"
-      - /if ([/ip firewall service-port get ftp disabled] !=true) do={/ip firewall service-port set ftp disabled=yes}
-      - /if ([/ip firewall service-port get tftp disabled] !=true) do={/ip firewall service-port set tftp disabled=yes}
-      - /if ([/ip firewall service-port get irc disabled] !=true) do={/ip firewall service-port set irc disabled=yes}
-      - /if ([/ip firewall service-port get h323 disabled] !=true) do={/ip firewall service-port set h323 disabled=yes}
-      - /if ([/ip firewall service-port get sip disabled] !=true) do={/ip firewall service-port set sip disabled=yes}
-      - /if ([/ip firewall service-port get pptp disabled] !=true) do={/ip firewall service-port set pptp disabled=yes}
-      - /if ([/ip firewall service-port get dccp disabled] !=true) do={/ip firewall service-port set dccp disabled=yes}
-      - /if ([/ip firewall service-port get sctp disabled] !=true) do={/ip firewall service-port set sctp disabled=yes}
-      - /if ([/ip firewall service-port get udplite disabled] !=true) do={/ip firewall service-port set udplite disabled=yes}
+      - /ip firewall service-port disable dccp,ftp,h323,irc,pptp,sctp,sip,tftp,udplite
       - /ip firewall service-port print
   register: ip_firewall_service_port_set_result
 
 - name: Debug registered var
-  debug: var=ip_firewall_service_port_set_result.stdout_lines[10]
+  debug: var=ip_firewall_service_port_set_result.stdout_lines[2]
 
 - name: Disable MAC-Telnet
   routeros_command:
     commands:
       - /log warning "Disable MAC-Telnet"
-      - /if ([/tool mac-server get allowed-interface-list] !=none) do={/tool mac-server set allowed-interface-list=none}
+      - /tool mac-server set allowed-interface-list=none
       - /tool mac-server print
 
   register: tool_mac_server_set_result
