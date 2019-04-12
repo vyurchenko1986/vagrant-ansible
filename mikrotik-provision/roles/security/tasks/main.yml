@@ -1,2 +1,36 @@
 ---
 # tasks file for security
+- name: Disable services
+  routeros_command:
+    commands:
+      - /log warning "Disable services"
+      - /ip service set telnet disabled=yes
+      - /ip service set ftp disabled=yes
+      - /ip service set api disabled=yes
+      - /ip service set api-ssl disabled=yes
+      - /ip service set www disabled=yes
+      - /ip service set www-ssl disabled=yes
+      - /ip service print
+  register: ip_service_set_result
+
+- name: Debug registered var
+  debug: var=ip_service_set_result.stdout_lines[7]
+
+- name: Disable services ports
+  routeros_command:
+    commands:
+      - /log warning "Disable services ports"
+      - /ip firewall service-port set ftp disabled=yes
+      - /ip firewall service-port set tftp disabled=yes
+      - /ip firewall service-port set irc disabled=yes
+      - /ip firewall service-port set h323 disabled=yes
+      - /ip firewall service-port set sip disabled=no
+      - /ip firewall service-port set pptp disabled=yes
+      - /ip firewall service-port set dccp disabled=yes
+      - /ip firewall service-port set sctp disabled=yes
+      - /ip firewall service-port set udplite disabled=yes
+      - /ip firewall service-port print
+  register: ip_firewall_service_port_set_result
+
+- name: Debug registered var
+  debug: var=ip_firewall_service_port_set_result.stdout_lines[10]
