@@ -64,8 +64,93 @@
     commands:
       - /log warning "Disable Neighbor Discovery"
       - /ip neighbor discovery-settings set discover-interface-list=none
+      - /ip neighbor print
 
   register: ip_neighbor_discovery_settings_set_result
 
 - name: Debug registered var
-  debug: var=ip_neighbor_discovery_settings_set_result.stdout_lines
+  debug: var=ip_neighbor_discovery_settings_set_result.stdout_lines[2]
+
+- name: Disable Bandwidth server
+  routeros_command:
+    commands:
+      - /log warning "Disable Bandwidth server"
+      - /tool bandwidth-server set enabled=no
+      - /tool bandwidth-server print
+
+  register: tool_bandwidth_server_set_result
+
+- name: Debug registered var
+  debug: var=tool_bandwidth_server_set_result.stdout_lines[2]
+
+- name: Disable DNS cache
+  routeros_command:
+    commands:
+      - /log warning "Disable DNS cache"
+      - /ip dns set allow-remote-requests=no
+      - /ip dns print
+
+  register: ip_dns_set_result
+
+- name: Debug registered var
+  debug: var=ip_dns_set_result.stdout_lines[2]
+
+- name: Disable MikroTik proxy
+  routeros_command:
+    commands:
+      - /log warning "Disable MikroTik proxy"
+      - /ip proxy set enabled=no
+      - /ip proxy print
+
+  register: ip_proxy_set_result
+
+- name: Debug registered var
+  debug: var=ip_proxy_set_result.stdout_lines[2]
+
+- name: Disable MikroTik socks proxy
+  routeros_command:
+    commands:
+      - /log warning "Disable MikroTik socks proxy"
+      - /ip socks set enabled=no
+      - /ip socks print
+
+  register: ip_socks_set_result
+
+- name: Debug registered var
+  debug: var=ip_socks_set_result.stdout_lines[2]
+
+- name: Disable MikroTik socks proxy
+  routeros_command:
+    commands:
+      - /log warning "Disable MikroTik UPNP service"
+      - /ip upnp set enabled=no
+      - /ip upnp print
+
+  register: ip_upnp_set_result
+
+- name: Debug registered var
+  debug: var=ip_upnp_set_result.stdout_lines[2]
+
+- name: Disable MikroTik dynamic name service or ip cloud
+  routeros_command:
+    commands:
+      - /log warning "Disable MikroTik dynamic name service or ip cloud"
+      - /ip cloud set ddns-enabled=no update-time=no
+      - /ip cloud print
+
+  register: ip_cloud_set_result
+
+- name: Debug registered var
+  debug: var=ip_cloud_set_result.stdout_lines[2]
+
+- name: Enable More Secure SSH access
+  routeros_command:
+    commands:
+      - /log warning "Enable More Secure SSH access"
+      - /ip ssh set strong-crypto=yes
+      - /ip ssh print
+
+  register: ip_ssh_set_result
+
+- name: Debug registered var
+  debug: var=ip_ssh_set_result.stdout_lines[2]
