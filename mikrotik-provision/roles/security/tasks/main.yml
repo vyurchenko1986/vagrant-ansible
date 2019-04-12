@@ -1,10 +1,10 @@
 ---
 # tasks file for security
 
-- name: Disable services
+- name: Disable RouterOS services
   routeros_command:
     commands:
-      - /log warning "Disable services"
+      - /log warning "Disable RouterOS services"
       - /ip service disable api,api-ssl,ftp,telnet,www,www-ssl
       - /ip service print
   register: ip_service_set_result
@@ -12,10 +12,10 @@
 - name: Debug registered var
   debug: var=ip_service_set_result.stdout_lines[2]
 
-- name: Disable services ports
+- name: Disable RouterOS services ports
   routeros_command:
     commands:
-      - /log warning "Disable services ports"
+      - /log warning "Disable RouterOS services ports"
       - /ip firewall service-port disable dccp,ftp,h323,irc,pptp,sctp,sip,tftp,udplite
       - /ip firewall service-port print
   register: ip_firewall_service_port_set_result
@@ -23,10 +23,10 @@
 - name: Debug registered var
   debug: var=ip_firewall_service_port_set_result.stdout_lines[2]
 
-- name: Disable MAC-Telnet
+- name: Disable mac-telnet services
   routeros_command:
     commands:
-      - /log warning "Disable MAC-Telnet"
+      - /log warning "Disable mac-telnet services"
       - /tool mac-server set allowed-interface-list=none
       - /tool mac-server print
 
@@ -34,3 +34,38 @@
 
 - name: Debug registered var
   debug: var=tool_mac_server_set_result.stdout_lines[2]
+
+- name: Disable mac-winbox services
+  routeros_command:
+    commands:
+      - /log warning "Disable mac-winbox services"
+      - /tool mac-server mac-winbox set allowed-interface-list=none
+      - /tool mac-server mac-winbox print
+
+  register: tool_mac_server_mac_winbox_set_result
+
+- name: Debug registered var
+  debug: var=tool_mac_server_mac_winbox_set_result.stdout_lines[2]
+
+- name: Disable mac-ping service
+  routeros_command:
+    commands:
+      - /log warning "Disable mac-ping service"
+      - /tool mac-server ping set enabled=no
+      - /tool mac-server ping print
+
+  register: tool_mac_server_ping_set_result
+
+- name: Debug registered var
+  debug: var=tool_mac_server_ping_set_result.stdout_lines[2]
+
+- name: Disable Neighbor Discovery
+  routeros_command:
+    commands:
+      - /log warning "Disable Neighbor Discovery"
+      - /ip neighbor discovery-settings set discover-interface-list=none
+
+  register: ip_neighbor_discovery_settings_set_result
+
+- name: Debug registered var
+  debug: var=ip_neighbor_discovery_settings_set_result.stdout_lines
