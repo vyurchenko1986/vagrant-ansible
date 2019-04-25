@@ -9,7 +9,7 @@
     - name: Disable services
       routeros_command:
         commands:
-          - /log info "Start L2TP configured"
+          - /beep
 
       register: ip_service_set_result
 
