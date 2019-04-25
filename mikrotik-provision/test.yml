@@ -9,58 +9,9 @@
     - name: Disable services
       routeros_command:
         commands:
-          - /log warning "Disable services"
-          - /ip service set telnet disabled=yes
-          - /ip service set ftp disabled=yes
-          - /ip service set api disabled=yes
-          - /ip service set api-ssl disabled=yes
-          - /ip service set www disabled=yes
-          - /ip service set www-ssl disabled=yes
-          - /ip service print
+          - /log info "Start L2TP configured"
+
       register: ip_service_set_result
 
     - name: Debug registered var
       debug: var=ip_service_set_result.stdout_lines[7]
-
-    - name: Disable services ports
-      routeros_command:
-        commands:
-          - /log warning "Disable services ports"
-          - /ip firewall service-port set ftp disabled=yes
-          - /ip firewall service-port set tftp disabled=yes
-          - /ip firewall service-port set irc disabled=yes
-          - /ip firewall service-port set h323 disabled=yes
-          - /ip firewall service-port set sip disabled=no
-          - /ip firewall service-port set pptp disabled=yes
-          - /ip firewall service-port set dccp disabled=yes
-          - /ip firewall service-port set sctp disabled=yes
-          - /ip firewall service-port set udplite disabled=yes
-          - /ip firewall service-port print
-      register: ip_firewall_service_port_set_result
-
-    - name: Debug registered var
-      debug: var=ip_firewall_service_port_set_result.stdout_lines[10]
-
-    - name: NTP configured
-      routeros_command:
-        commands:
-          - /log warning "NTP configured"
-          - /system ntp client set enabled=yes server-dns-names="time1.google.com, time2.google.com, 1.pool.ntp.org, 2.pool.ntp.org"
-          - /system ntp client print
-          - /system clock set time-zone-name="Europe/Kiev"
-      register: system_ntp_client_set_result
-
-    - name: Debug registered var
-      debug: var=system_ntp_client_set_result.stdout_lines[2]
-
-    - name: Configuring Users
-      routeros_command:
-        commands:
-          - /log warning "Start Users settings configured"
-          - /user add name=AdminUser password=AdminPass group=full
-          - /user remove admin
-          - /user print
-      register: user_add_result
-
-    - name: Debug registered var
-      debug: var=user_add_result.stdout_lines[3]
