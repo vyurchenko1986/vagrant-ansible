@@ -1,3 +1,4 @@
 ---
 # defaults file for security
 routeros_timezone: Europe/Rome
+routeros_disable_beep: True

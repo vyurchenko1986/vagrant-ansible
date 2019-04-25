@@ -10,6 +10,7 @@
       routeros_command:
         commands:
           - /beep
+      when: routeros_disable_beep
 
       register: ip_service_set_result
 
