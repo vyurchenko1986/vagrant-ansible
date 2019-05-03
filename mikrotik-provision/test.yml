@@ -6,13 +6,22 @@
 
   tasks:
 
-    - name: Disable services
+    - name: Disable service ports
       routeros_command:
         commands:
-          - /beep
-      when: routeros_disable_beep
+          - /if ([/ip firewall service-port get {{ item }} disabled] !=true) do={/ip firewall service-port set {{ item }} disabled=yes; /log warning "Disable service port {{ item }}"}
+      with_items:
+        - dccp
+        - ftp
+        - h323
+        - irc
+        - pptp
+        - sctp
+        - sip
+        - tftp
+        - udplite
 
-      register: ip_service_set_result
+      register: ip_firewall_service_port_set_result
 
     - name: Debug registered var
-      debug: var=ip_service_set_result.stdout_lines[7]
+      debug: var=ip_firewall_service_port_set_result.stdout_lines

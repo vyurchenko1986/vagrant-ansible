@@ -1,0 +1,23 @@
+---
+# tasks file for service_port
+
+- name: Disable service port
+  routeros_command:
+    commands:
+      - /if ([/ip firewall service-port get {{ item }} disabled] !=true) do={/ip firewall service-port set {{ item }} disabled=yes}
+
+  with_items:
+    - dccp
+    - ftp
+    - h323
+    - irc
+    - pptp
+    - sctp
+    - sip
+    - tftp
+    - udplite
+
+  register: ip_firewall_service_port_set_result
+
+- name: Debug registered var
+  debug: var=ip_firewall_service_port_set_result.stdout_lines
