@@ -20,8 +20,5 @@
         - sip
         - tftp
         - udplite
-
-      register: ip_firewall_service_port_set_result
-
-    - name: Debug registered var
-      debug: var=ip_firewall_service_port_set_result.stdout_lines
+      tags:
+        - service-port
