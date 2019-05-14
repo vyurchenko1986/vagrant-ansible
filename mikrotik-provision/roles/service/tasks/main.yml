@@ -1,9 +1,10 @@
 ---
 # tasks file for service
-- name: file upload
+- name: COPY FILE FROM THE NETWORK DEVICE TO ANSIBLE CONTROLLER
   net_put:
-    src: ./ansible_script.rsc
+    src:  "{{ role_path }}/files/running_cfg_service.rsc"
     protocol: sftp
+    dest : running_cfg_service.rsc
 
 - name: File demonstate after
   routeros_command:
@@ -15,7 +16,7 @@
 
 - name: File import
   routeros_command:
-    commands: /import file-name=ansible_script.rsc
+    commands: /import file-name=running_cfg_service.rsc
   register: file_import
 
 - name: debug print after
