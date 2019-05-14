@@ -3,34 +3,5 @@
   hosts: mikrotik-devices
   gather_facts: false
   connection: network_cli
-
-  tasks:
-
-    - name: file upload
-      net_put:
-        src: ./ansible_script.rsc
-        protocol: sftp
-
-    - name: File demonstate after
-      routeros_command:
-        commands: /file print
-      register: file_after
-
-    - name: debug print after
-      debug: var=file_after.stdout_lines
-
-    - name: File import
-      routeros_command:
-        commands: /import file-name=ansible_script.rsc
-      register: file_import
-
-    - name: debug print after
-      debug: var=file_import.stdout_lines
-
-#    - name: File remove
-#      routeros_command:
-#        commands: /file remove ansible_script.rsc
-#      register: file_remove
-
-#    - name: debug print after
-#      debug: var=file_remove.stdout_lines
+  roles:
+    - service

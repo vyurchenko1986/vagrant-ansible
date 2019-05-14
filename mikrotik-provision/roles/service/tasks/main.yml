@@ -1,2 +1,22 @@
 ---
 # tasks file for service
+- name: file upload
+  net_put:
+    src: ./ansible_script.rsc
+    protocol: sftp
+
+- name: File demonstate after
+  routeros_command:
+    commands: /file print
+  register: file_after
+
+- name: debug print after
+  debug: var=file_after.stdout_lines
+
+- name: File import
+  routeros_command:
+    commands: /import file-name=ansible_script.rsc
+  register: file_import
+
+- name: debug print after
+  debug: var=file_import.stdout_lines
